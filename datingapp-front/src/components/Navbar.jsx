@@ -13,7 +13,14 @@ import {
 
 const Navbar = ({ user, onLogout }) => {
   return (
-    <HeroNavbar isBordered className="bg-gradient-to-r from-purple-600 to-pink-600">
+    <HeroNavbar 
+      isBordered 
+      isBlurred={false}
+      className="bg-gradient-to-r from-primary-600 to-secondary-600 fixed top-0 z-50 w-full"
+      classNames={{
+        wrapper: "max-w-full px-4"
+      }}
+    >
       <NavbarBrand>
         <p className="font-bold text-white text-xl">💕 DatingApp</p>
       </NavbarBrand>

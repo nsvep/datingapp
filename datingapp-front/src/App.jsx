@@ -34,14 +34,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
       {/* Navigation Bar */}
       {user && <Navbar user={user} onLogout={handleLogout} />}
       
       {/* Error Display */}
       {error && (
-        <div className="fixed top-4 right-4 z-50 max-w-md">
-          <Card className="border-danger-200 bg-danger-50">
+        <div className="fixed top-20 right-4 z-50 max-w-md">
+          <Card className="border-danger-200 bg-danger-50 shadow-lg">
             <CardBody>
               <div className="flex items-start gap-3">
                 <Chip color="danger" variant="flat" size="sm">

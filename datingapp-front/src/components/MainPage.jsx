@@ -77,7 +77,7 @@ const MainPage = ({ user, onError }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 pt-20 p-4">
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Welcome Card */}
@@ -93,19 +93,20 @@ const MainPage = ({ user, onError }) => {
         </Card>
 
         {/* Profile Status Card */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-3">
+        <Card className="w-full">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-4 w-full">
               <Avatar
                 name={user?.first_name || 'User'}
                 size="lg"
                 color="secondary"
+                className="flex-shrink-0"
               />
-              <div>
-                <h3 className="text-xl font-semibold">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xl font-semibold truncate">
                   {user?.first_name} {user?.last_name}
                 </h3>
-                <p className="text-gray-600">@{user?.username || 'username'}</p>
+                <p className="text-gray-600 truncate">@{user?.username || 'username'}</p>
                 {user?.is_premium && (
                   <Chip color="warning" variant="flat" size="sm" className="mt-1">
                     ⭐ Premium
@@ -114,8 +115,8 @@ const MainPage = ({ user, onError }) => {
               </div>
             </div>
           </CardHeader>
-          <CardBody>
-            <div className="space-y-4">
+          <CardBody className="pt-0">
+            <div className="space-y-6">
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span>Заполненность профиля</span>
@@ -124,7 +125,8 @@ const MainPage = ({ user, onError }) => {
                 <Progress 
                   value={30} 
                   color="secondary" 
-                  className="max-w-md"
+                  className="w-full"
+                  size="sm"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Заполните профиль для лучших результатов
@@ -133,20 +135,20 @@ const MainPage = ({ user, onError }) => {
               
               <Divider />
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div>
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div className="p-3 bg-purple-50 rounded-lg">
                   <p className="text-2xl font-bold text-purple-600">0</p>
                   <p className="text-sm text-gray-600">Лайков</p>
                 </div>
-                <div>
+                <div className="p-3 bg-pink-50 rounded-lg">
                   <p className="text-2xl font-bold text-pink-600">0</p>
                   <p className="text-sm text-gray-600">Совпадений</p>
                 </div>
-                <div>
+                <div className="p-3 bg-blue-50 rounded-lg">
                   <p className="text-2xl font-bold text-blue-600">0</p>
                   <p className="text-sm text-gray-600">Сообщений</p>
                 </div>
-                <div>
+                <div className="p-3 bg-green-50 rounded-lg">
                   <p className="text-2xl font-bold text-green-600">0</p>
                   <p className="text-sm text-gray-600">Просмотров</p>
                 </div>
@@ -156,22 +158,22 @@ const MainPage = ({ user, onError }) => {
         </Card>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardBody className="text-center py-8">
-              <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-lg font-semibold mb-2">Поиск людей</h3>
-              <p className="text-gray-600 text-sm">
+        <div className="grid grid-cols-2 gap-4">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100">
+            <CardBody className="text-center py-6">
+              <div className="text-3xl mb-3">🔍</div>
+              <h3 className="text-base font-semibold mb-1">Поиск людей</h3>
+              <p className="text-gray-600 text-xs">
                 Найдите интересных людей рядом с вами
               </p>
             </CardBody>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardBody className="text-center py-8">
-              <div className="text-4xl mb-4">💬</div>
-              <h3 className="text-lg font-semibold mb-2">Сообщения</h3>
-              <p className="text-gray-600 text-sm">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-pink-50 to-pink-100">
+            <CardBody className="text-center py-6">
+              <div className="text-3xl mb-3">💬</div>
+              <h3 className="text-base font-semibold mb-1">Сообщения</h3>
+              <p className="text-gray-600 text-xs">
                 Общайтесь с вашими совпадениями
               </p>
             </CardBody>
