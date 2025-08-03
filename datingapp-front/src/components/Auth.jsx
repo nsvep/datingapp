@@ -4,7 +4,6 @@ import {
   CardBody, 
   CardHeader,
   Chip,
-  Spinner,
   Progress
 } from '@heroui/react'
 
@@ -47,8 +46,10 @@ const Auth = ({ onAuthSuccess, onError }) => {
             setTelegramData(userData)
             setAuthStep('authenticating')
             
-            // Automatic authentication
-            await authenticateUser(userData)
+            // Automatic authentication with extended delay for animation
+            setTimeout(async () => {
+              await authenticateUser(userData)
+            }, 4000) // Extended delay to 4 seconds
           } else {
             // No user data available, use test data for development
             setAuthStep('no_telegram_data')
@@ -63,11 +64,11 @@ const Auth = ({ onAuthSuccess, onError }) => {
             
             setTelegramData(testData)
             
-            // Wait a bit and then authenticate with test data
+            // Extended delay for animation viewing
             setTimeout(async () => {
               setAuthStep('authenticating')
               await authenticateUser(testData)
-            }, 2000)
+            }, 5000) // Extended delay to 5 seconds
           }
         } else {
           // Not in Telegram, use test data
@@ -83,10 +84,11 @@ const Auth = ({ onAuthSuccess, onError }) => {
           
           setTelegramData(testData)
           
+          // Extended delay for animation viewing
           setTimeout(async () => {
             setAuthStep('authenticating')
             await authenticateUser(testData)
-          }, 2000)
+          }, 5000) // Extended delay to 5 seconds
         }
       } catch (error) {
         console.error('Initialization error:', error)
@@ -182,10 +184,10 @@ const Auth = ({ onAuthSuccess, onError }) => {
       <Card className="w-full max-w-md">
         <CardHeader className="pb-2 text-center">
           <div className="w-full">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              💕 DatingApp
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Скрепы
             </h1>
-            <p className="text-gray-600 mt-2">Telegram MiniApp для знакомств</p>
+            <p className="text-gray-600 mt-2">Телеграм MiniApp для знакомств</p>
           </div>
         </CardHeader>
         
@@ -201,44 +203,45 @@ const Auth = ({ onAuthSuccess, onError }) => {
             </Chip>
           )}
 
-          {/* Loading State */}
-          <div className="text-center space-y-4">
-            <Spinner 
-              size="lg" 
-              color="secondary"
-              className="mb-4"
-            />
+          {/* Animated Paper Clips Loading Animation */}
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              {/* First Paper Clip */}
+              <div className="absolute animate-bounce" style={{animationDelay: '0ms'}}>
+                <svg className="w-12 h-12 text-purple-500" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L8 2C6.34315 2 5 3.34315 5 5V19C5 20.6569 6.34315 22 8 22H16C17.6569 22 19 20.6569 19 19V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 2V12L17 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              
+              {/* Second Paper Clip */}
+              <div className="absolute animate-bounce" style={{animationDelay: '150ms'}}>
+                <svg className="w-12 h-12 text-pink-500" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L8 2C6.34315 2 5 3.34315 5 5V19C5 20.6569 6.34315 22 8 22H16C17.6569 22 19 20.6569 19 19V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M12 2V12L17 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              
+              {/* Connecting Line Animation */}
+              <div className="absolute top-1/2 left-1/2 w-16 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+              
+              {/* Rotating Circle */}
+              <div className="absolute inset-0 border-4 border-purple-200 border-t-purple-500 rounded-full animate-spin" style={{animationDuration: '3s'}}></div>
+            </div>
             
-            <div className="space-y-2">
-              <p className="text-sm text-gray-600">{getStepMessage()}</p>
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-gray-600">{getStepMessage()}</p>
               <Progress 
                 value={getProgressValue()} 
                 color="secondary" 
                 className="max-w-md mx-auto"
                 size="sm"
               />
+              <p className="text-xs text-gray-500">{Math.round(getProgressValue())}%</p>
             </div>
           </div>
 
-          {/* User Data Preview */}
-          {telegramData && (
-            <Card className="bg-gray-50">
-              <CardBody>
-                <h4 className="font-semibold mb-2 text-sm">Данные пользователя:</h4>
-                <div className="text-xs space-y-1">
-                  <p><strong>ID:</strong> {telegramData.telegram_id}</p>
-                  <p><strong>Имя:</strong> {telegramData.first_name} {telegramData.last_name}</p>
-                  {telegramData.username && (
-                    <p><strong>Username:</strong> @{telegramData.username}</p>
-                  )}
-                  <p><strong>Язык:</strong> {telegramData.language_code}</p>
-                  {telegramData.is_premium && (
-                    <p><strong>Premium:</strong> ⭐ Да</p>
-                  )}
-                </div>
-              </CardBody>
-            </Card>
-          )}
+
         </CardBody>
       </Card>
     </div>
