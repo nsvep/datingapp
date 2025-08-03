@@ -1,34 +1,66 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Navbar from './components/Navbar'
+import Auth from './components/Auth'
+import MainPage from './components/MainPage'
+import { Card, CardBody, Chip } from '@heroui/react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
+
+  const handleAuthSuccess = (userData) => {
+    setUser(userData)
+    setError(null)
+    
+    // Hide Telegram main button after successful auth
+    if (window.Telegram?.WebApp?.MainButton) {
+      window.Telegram.WebApp.MainButton.hide()
+    }
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    setError(null)
+    
+    // Show Telegram main button again
+    if (window.Telegram?.WebApp?.MainButton) {
+      window.Telegram.WebApp.MainButton.show()
+    }
+  }
+
+  const handleError = (errorMessage) => {
+    setError(errorMessage)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn больше
-      </p>
-    </>
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation Bar */}
+      {user && <Navbar user={user} onLogout={handleLogout} />}
+      
+      {/* Error Display */}
+      {error && (
+        <div className="fixed top-4 right-4 z-50 max-w-md">
+          <Card className="border-danger-200 bg-danger-50">
+            <CardBody>
+              <div className="flex items-start gap-3">
+                <Chip color="danger" variant="flat" size="sm">
+                  Ошибка
+                </Chip>
+                <p className="text-danger-700 text-sm flex-1">{error}</p>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      )}
+      
+      {/* Main Content */}
+      {user ? (
+        <MainPage user={user} onError={handleError} />
+      ) : (
+        <Auth onAuthSuccess={handleAuthSuccess} onError={handleError} />
+      )}
+    </div>
   )
 }
 
